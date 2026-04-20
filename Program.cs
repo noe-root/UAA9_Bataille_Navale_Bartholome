@@ -4,50 +4,63 @@
     {
         static void Main(string[] args)
         {
-            // Message de bienvenue
-            Console.WriteLine("Bienvenu dans mon programme !");
+            bool rejouer; // NEW: permet de rejouer une partie
 
-            // ===== DÉCLARATION ET INITIALISATION DES VARIABLES =====
-            int largeur; // Nombre de colonnes de la grille (A-J = 10)
-            int hauteur; // Nombre de lignes de la grille (1-10 = 10)
-            largeur = 10;
-            hauteur = 10;
+            do
+            {
+                // Message de bienvenue
+                Console.WriteLine("Bienvenu dans mon programme !");
 
-            // ===== CRÉATION DES GRILLES DE JEU =====
-            // Grilles contenant les bateaux de chaque joueur
-            string[,] grilleJoueur1 = new string[hauteur, largeur]; // Grille des bateaux du joueur 1
-            string[,] grilleJoueur2 = new string[hauteur, largeur]; // Grille des bateaux du joueur 2
+                // ===== DÉCLARATION ET INITIALISATION DES VARIABLES =====
+                int largeur; // Nombre de colonnes de la grille (A-J = 10)
+                int hauteur; // Nombre de lignes de la grille (1-10 = 10)
+                largeur = 10;
+                hauteur = 10;
 
-            // Grilles pour tracer les tirs de chaque joueur (ce qu'ils voient de l'adversaire)
-            string[,] grilleTirsJoueur1 = new string[hauteur, largeur]; // Joueur 1 tire sur joueur 2
-            string[,] grilleTirsJoueur2 = new string[hauteur, largeur]; // Joueur 2 tire sur joueur 1
+                // ===== CRÉATION DES GRILLES DE JEU =====
+                // Grilles contenant les bateaux de chaque joueur
+                string[,] grilleJoueur1 = new string[hauteur, largeur]; // Grille des bateaux du joueur 1
+                string[,] grilleJoueur2 = new string[hauteur, largeur]; // Grille des bateaux du joueur 2
 
-            // ===== PHASE DE PLACEMENT - JOUEUR 1 =====
-            RemplirGrille(grilleJoueur1);        // Remplir la grille de bateaux avec des vagues (~)
-            RemplirGrille(grilleTirsJoueur1);    // Remplir la grille de tirs avec des vagues (~)
-            AfficherInfosBateaux();               // Afficher les types de bateaux disponibles
-            PlacerTousLesBateaux(grilleJoueur1, "JOUEUR 1"); // Le joueur 1 place ses 5 bateaux
+                // Grilles pour tracer les tirs de chaque joueur (ce qu'ils voient de l'adversaire)
+                string[,] grilleTirsJoueur1 = new string[hauteur, largeur]; // Joueur 1 tire sur joueur 2
+                string[,] grilleTirsJoueur2 = new string[hauteur, largeur]; // Joueur 2 tire sur joueur 1
 
-            // ===== TRANSITION ENTRE LES JOUEURS =====
-            Console.WriteLine("\n\n=== Le Joueur 1 a terminé ! ===");
-            Console.WriteLine("Appuyez sur une touche pour que le Joueur 2 commence...");
-            Console.ReadKey();   // Attendre que l'utilisateur appuie sur une touche
-            Console.Clear();     // Effacer l'écran pour que le joueur 2 ne voie pas les bateaux du joueur 1
+                // ===== PHASE DE PLACEMENT - JOUEUR 1 =====
+                RemplirGrille(grilleJoueur1);
+                RemplirGrille(grilleTirsJoueur1);
+                AfficherInfosBateaux();
+                PlacerTousLesBateaux(grilleJoueur1, "JOUEUR 1");
 
-            // ===== PHASE DE PLACEMENT - JOUEUR 2 =====
-            RemplirGrille(grilleJoueur2);        // Remplir la grille de bateaux avec des vagues (~)
-            RemplirGrille(grilleTirsJoueur2);    // Remplir la grille de tirs avec des vagues (~)
-            AfficherInfosBateaux();               // Afficher les types de bateaux disponibles
-            PlacerTousLesBateaux(grilleJoueur2, "JOUEUR 2"); // Le joueur 2 place ses 5 bateaux
+                // ===== TRANSITION ENTRE LES JOUEURS =====
+                Console.WriteLine("\n\n=== Le Joueur 1 a terminé ! ===");
+                Console.WriteLine("Appuyez sur une touche pour que le Joueur 2 commence...");
+                Console.ReadKey();
+                Console.Clear();
 
-            // ===== DÉBUT DE LA BATAILLE =====
-            Console.Clear();     // Effacer l'écran
-            Console.WriteLine("=== Que la bataille commence ! ===\n");
-            Console.WriteLine("Appuyez sur une touche pour commencer...");
-            Console.ReadKey();   // Attendre avant de commencer
+                // ===== PHASE DE PLACEMENT - JOUEUR 2 =====
+                RemplirGrille(grilleJoueur2);
+                RemplirGrille(grilleTirsJoueur2);
+                AfficherInfosBateaux();
+                PlacerTousLesBateaux(grilleJoueur2, "JOUEUR 2");
 
-            // Lancer la boucle de jeu (tirs alternés jusqu'à ce qu'un joueur gagne)
-            JouerBataille(grilleJoueur1, grilleJoueur2, grilleTirsJoueur1, grilleTirsJoueur2, largeur, hauteur);
+                // ===== DÉBUT DE LA BATAILLE =====
+                Console.Clear();
+                Console.WriteLine("=== Que la bataille commence ! ===\n");
+                Console.WriteLine("Appuyez sur une touche pour commencer...");
+                Console.ReadKey();
+
+                // Lancer la boucle de jeu (tirs alternés jusqu'à ce qu'un joueur gagne)
+                JouerBataille(grilleJoueur1, grilleJoueur2, grilleTirsJoueur1, grilleTirsJoueur2, largeur, hauteur);
+
+                // ===== DEMANDER SI ON REJOUE =====
+                Console.Write("\nVoulez-vous rejouer ? (O/N) : ");
+                string reponse = Console.ReadLine().Trim().ToUpper();
+                rejouer = (reponse == "O" || reponse == "OUI");
+
+                Console.Clear();
+
+            } while (rejouer);
         }
 
         // ===== FONCTION PRINCIPALE DE LA BATAILLE =====
